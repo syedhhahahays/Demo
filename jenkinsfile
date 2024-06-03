@@ -1,0 +1,42 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Build') {
+            steps {
+                // Add your build steps here
+                echo 'Building the project...'
+                // For example, you can copy files
+                sh 'cp -r * /path/to/build/directory'
+            }
+        }
+        stage('Test') {
+            steps {
+                // Add your test steps here
+                echo 'Running tests...'
+                // For example, you can run unit tests
+                // sh 'npm test' or 'pytest'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                // Add your deployment steps here
+                echo 'Deploying to Nginx server...'
+                // For example, use SSH to copy files to Nginx server
+                sh 'scp -r /path/to/build/directory/* user@nginx-server:/path/to/nginx/html/'
+            }
+        }
+    }
+    
+    post {
+        success {
+            // Add post-build actions for successful builds
+            echo 'Deployment successful'
+        }
+        failure {
+            // Add post-build actions for failed builds
+            echo 'Deployment failed'
+        }
+    }
+}
+
